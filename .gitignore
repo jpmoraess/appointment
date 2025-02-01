@@ -1,0 +1,45 @@
+# Go build files
+/bin/
+/build/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Dependency directories
+vendor/
+
+# Go modules cache (if using vendoring)
+.gopath/
+
+# IDE settings (GoLand)
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage.out
+
+# Temporary files
+*.tmp
+*.swp
+
+# Binary output files
+*.bin
+
+# Environment files
+.env
+.env.*
+
+# Test cache
+testdata/
