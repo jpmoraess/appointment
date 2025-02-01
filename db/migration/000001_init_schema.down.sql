@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS appointment;
+DROP TABLE IF EXISTS schedule_override;
+DROP TABLE IF EXISTS schedule;
+DROP TABLE IF EXISTS professional_service;
+DROP TABLE IF EXISTS service;
+DROP TABLE IF EXISTS professional;
+DROP TABLE IF EXISTS "session";
+DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS tenant;
