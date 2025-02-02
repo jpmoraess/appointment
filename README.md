@@ -6,3 +6,5 @@ Ex: migrate create -ext sql -seq init_schema
 
 Run: sqlc init
 
+docker run --name appointment-system --network appointment-system-network -p 8080:8080 -e GIN_MODE=release 
+-e DB_SOURCE=postgresql://postgres:postgres@postgres-database:5432/appointment_system?sslmode=disable appointment-api:latest

@@ -1,5 +1,5 @@
 postgres:
-	docker run --name postgres-database -p 5432:5432 -e POSTGRES_USERNAME=postgres -e POSTGRES_PASSWORD=postgres -d postgres
+	docker run --name postgres-database --network appointment-system-network -p 5432:5432 -e POSTGRES_USERNAME=postgres -e POSTGRES_PASSWORD=postgres -d postgres
 
 createdb:
 	docker exec -it postgres-database createdb --username=postgres --owner=postgres appointment_system
