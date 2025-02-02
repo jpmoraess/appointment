@@ -1,0 +1,20 @@
+services:
+  postgres-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=appointment_system
+
+  appointment-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SOURCE=postgresql://postgres:postgres@postgres-db:5432/appointment_system?sslmode=disable
+    depends_on:
+      - postgres-db
+    entrypoint: [ "/app/wait-for.sh", "postgres-db:5432", "--", "/app/start.sh" ]
+    command: [ "/app/main" ]
