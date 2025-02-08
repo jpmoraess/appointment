@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"fmt"
+	"context"
 
 	db "github.com/jpmoraess/appointment-api/db/sqlc"
 )
@@ -14,7 +14,20 @@ func NewRegister(store db.Store) *Register {
 	return &Register{store: store}
 }
 
-func (r *Register) Execute() error {
-	fmt.Println("registrando...")
+type RegisterInput struct {
+	Name     string
+	Password string
+}
+
+func (r *Register) Execute(ctx context.Context, input *RegisterInput) error {
+	_, err := r.store.RegisterTx(ctx, db.RegisterTxParams{
+		Name:     input.Name,
+		Password: input.Password,
+	})
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
