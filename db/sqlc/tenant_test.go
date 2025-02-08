@@ -2,15 +2,16 @@ package db
 
 import (
 	"context"
-	"github.com/jpmoraess/appointment-api/util"
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/jpmoraess/appointment-api/pkg/utils"
+	"github.com/stretchr/testify/require"
 )
 
 func TestQueries_CreateTenant(t *testing.T) {
 	var (
-		name = util.RandomString(6)
-		slug = util.RandomString(6)
+		name = utils.RandomString(6)
+		slug = utils.RandomString(6)
 	)
 
 	arg := CreateTenantParams{
