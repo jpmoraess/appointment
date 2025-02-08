@@ -19,13 +19,18 @@ type registerRequest struct {
 	Password string `json:"password"`
 }
 
+type registerResponse struct {
+	TenantID int64 `json:"tenantId"`
+	UserID   int64 `json:"userId"`
+}
+
 func (r *RegisterHandler) HandleRegister(c *fiber.Ctx) error {
 	var request registerRequest
 	if err := c.BodyParser(&request); err != nil {
 		return utils.SendErrorResponse(c, fiber.StatusBadRequest, err)
 	}
 
-	err := r.register.Execute(c.Context(), &usecases.RegisterInput{
+	output, err := r.register.Execute(c.Context(), &usecases.RegisterInput{
 		Name:     request.Name,
 		Password: request.Password,
 	})
@@ -33,5 +38,10 @@ func (r *RegisterHandler) HandleRegister(c *fiber.Ctx) error {
 		return utils.SendErrorResponse(c, fiber.StatusInternalServerError, err)
 	}
 
-	return utils.SendSuccessResponse(c, fiber.StatusOK, nil)
+	resp := &registerResponse{
+		TenantID: output.TenantID,
+		UserID:   output.UserID,
+	}
+
+	return utils.SendSuccessResponse(c, fiber.StatusOK, resp)
 }
