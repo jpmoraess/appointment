@@ -35,25 +35,26 @@ func TestExecute(t *testing.T) {
 
 	uc := NewRegister(store)
 
-	err := uc.Execute(context.Background(), &RegisterInput{
+	output, err := uc.Execute(context.Background(), &RegisterInput{
 		Name:     "john",
 		Password: "123",
 	})
 
 	require.NoError(t, err)
-	require.NotNil(t, result.TenantID)
-	require.NotNil(t, result.UserID)
-	require.Equal(t, int64(1), result.TenantID)
-	require.Equal(t, int64(2), result.UserID)
+	require.NotNil(t, output.TenantID)
+	require.NotNil(t, output.UserID)
+	require.Equal(t, int64(1), output.TenantID)
+	require.Equal(t, int64(2), output.UserID)
 }
 
 func TestExecuteTableDriven(t *testing.T) {
 	tests := []struct {
-		name          string
-		params        db.RegisterTxParams
-		mockError     error
-		mockReturn    *db.RegisterTxResult
-		expectedError string
+		name           string
+		params         db.RegisterTxParams
+		mockError      error
+		mockReturn     *db.RegisterTxResult
+		expectedError  string
+		expectedResult *RegisterOutput
 	}{
 		{
 			name: "Success",
@@ -67,6 +68,10 @@ func TestExecuteTableDriven(t *testing.T) {
 				UserID:   2,
 			},
 			expectedError: "",
+			expectedResult: &RegisterOutput{
+				TenantID: 1,
+				UserID:   2,
+			},
 		},
 		{
 			name: "Error",
@@ -74,9 +79,10 @@ func TestExecuteTableDriven(t *testing.T) {
 				Name:     "john",
 				Password: "123",
 			},
-			mockError:     errors.New("some error"),
-			mockReturn:    nil,
-			expectedError: "some error",
+			mockError:      errors.New("some error"),
+			mockReturn:     nil,
+			expectedError:  "some error",
+			expectedResult: nil,
 		},
 	}
 
@@ -93,13 +99,14 @@ func TestExecuteTableDriven(t *testing.T) {
 
 			uc := NewRegister(store)
 
-			err := uc.Execute(context.Background(), &RegisterInput{
+			output, err := uc.Execute(context.Background(), &RegisterInput{
 				Name:     tt.params.Name,
 				Password: tt.params.Password,
 			})
 
 			if len(tt.expectedError) == 0 {
-				require.NoError(t, err)
+				assert.NoError(t, err)
+				assert.Equal(t, tt.expectedResult, output)
 			} else {
 				assert.Error(t, err)
 				assert.Equal(t, tt.expectedError, err.Error())
