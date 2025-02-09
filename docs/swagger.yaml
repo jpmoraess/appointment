@@ -1,0 +1,56 @@
+definitions:
+  handlers.RegisterRequest:
+    description: Object containing data for user registration
+    properties:
+      name:
+        description: |-
+          Name
+          @example "John"
+        type: string
+      password:
+        description: |-
+          Password
+          @example "mysecr3tpwd"
+        type: string
+    type: object
+  handlers.RegisterResponse:
+    description: Response containing tenant and user information after registration
+    properties:
+      tenantId:
+        description: "Tenant Identifier\n\t@example\t\"1\""
+        type: integer
+      userId:
+        description: "User Identifier\n\t@example\t\"1\""
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Appointment System Documentation
+  termsOfService: https://example.com/terms
+  title: Appointment System
+  version: "1.0"
+paths:
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: response data
+          schema:
+            $ref: '#/definitions/handlers.RegisterResponse'
+      summary: Register
+      tags:
+      - AUTH
+swagger: "2.0"

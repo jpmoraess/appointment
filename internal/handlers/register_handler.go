@@ -14,18 +14,38 @@ func NewRegisterHandler(register *usecases.Register) *RegisterHandler {
 	return &RegisterHandler{register: register}
 }
 
-type registerRequest struct {
+// RegisterRequest structure for registration request
+//	@Description	Object containing data for user registration
+type RegisterRequest struct {
+	// Name
+	// @example "John"
 	Name     string `json:"name"`
+	// Password
+	// @example "mysecr3tpwd"
 	Password string `json:"password"`
 }
 
-type registerResponse struct {
+// RegisterResponse structure for registration response
+//	@Description	Response containing tenant and user information after registration
+type RegisterResponse struct {
+	// Tenant Identifier
+	//	@example	"1"
 	TenantID int64 `json:"tenantId"`
+	// User Identifier
+	//	@example	"1"
 	UserID   int64 `json:"userId"`
 }
 
+//	@Summary		Register
+//	@Description	Register new user
+//	@Tags			AUTH
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		RegisterRequest		true	"request body"
+//	@Success		200		{object}	RegisterResponse	"response data"
+//	@Router			/auth/register [post]
 func (r *RegisterHandler) HandleRegister(c *fiber.Ctx) error {
-	var request registerRequest
+	var request RegisterRequest
 	if err := c.BodyParser(&request); err != nil {
 		return utils.SendErrorResponse(c, fiber.StatusBadRequest, err)
 	}
@@ -38,7 +58,7 @@ func (r *RegisterHandler) HandleRegister(c *fiber.Ctx) error {
 		return utils.SendErrorResponse(c, fiber.StatusInternalServerError, err)
 	}
 
-	resp := &registerResponse{
+	resp := &RegisterResponse{
 		TenantID: output.TenantID,
 		UserID:   output.UserID,
 	}

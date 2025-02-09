@@ -1,0 +1,77 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Appointment System Documentation",
+        "title": "Appointment System",
+        "termsOfService": "https://example.com/terms",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "description": "Register new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AUTH"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response data",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RegisterResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.RegisterRequest": {
+            "description": "Object containing data for user registration",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name\n@example \"John\"",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password\n@example \"mysecr3tpwd\"",
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.RegisterResponse": {
+            "description": "Response containing tenant and user information after registration",
+            "type": "object",
+            "properties": {
+                "tenantId": {
+                    "description": "Tenant Identifier\n\t@example\t\"1\"",
+                    "type": "integer"
+                },
+                "userId": {
+                    "description": "User Identifier\n\t@example\t\"1\"",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

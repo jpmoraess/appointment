@@ -18,8 +18,14 @@ import (
 	"github.com/jpmoraess/appointment-api/internal/usecases"
 	"github.com/jpmoraess/appointment-api/pkg/metrics"
 	"github.com/jpmoraess/appointment-api/pkg/utils"
+	_ "github.com/jpmoraess/appointment-api/docs"
 )
 
+//	@title			Appointment System
+//	@version		1.0
+//	@description	Appointment System Documentation
+//	@termsOfService	https://example.com/terms
+//	@host			localhost:8080
 func main() {
 	cfg, err := utils.LoadConfig(".")
 	if err != nil {
